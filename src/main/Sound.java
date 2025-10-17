@@ -1,0 +1,97 @@
+package main;
+
+// SON .wav ET en 16bits
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
+import java.io.File;
+
+public class Sound {
+
+    private Clip clip;
+    private File[] soundURL = new File[30];
+    private FloatControl floatControl;
+    private int volumeScale = 3;
+    private float volume;
+
+    public Sound(){
+
+        soundURL[0] = new File("res/sound/BlueBoyAdventure.wav");
+        soundURL[1] = new File("res/sound/coin.wav");
+        soundURL[2] = new File("res/sound/powerup.wav");
+        soundURL[3] = new File("res/sound/unlock.wav");
+        soundURL[4] = new File("res/sound/fanfare.wav");
+        soundURL[5] = new File("res/sound/hitmonster.wav");
+        soundURL[6] = new File("res/sound/receivedamage.wav");
+        soundURL[7] = new File("res/sound/swingweapon.wav");
+        soundURL[8] = new File("res/sound/levelup.wav");
+        soundURL[9] = new File("res/sound/cursor.wav");
+        soundURL[10] = new File("res/sound/burning.wav");
+        soundURL[11] = new File("res/sound/cuttree.wav");
+        soundURL[12] = new File("res/sound/gameover.wav");
+        soundURL[13] = new File("res/sound/stairs.wav");
+        soundURL[14] = new File("res/sound/sleep.wav");
+        soundURL[15] = new File("res/sound/blocked.wav");
+        soundURL[16] = new File("res/sound/parry.wav");
+        soundURL[17] = new File("res/sound/speak.wav");
+        soundURL[18] = new File("res/sound/Merchant.wav");
+        soundURL[19] = new File("res/sound/Dungeon.wav");
+        soundURL[20] = new File("res/sound/chipwall.wav");
+        soundURL[21] = new File("res/sound/dooropen.wav");
+
+        soundURL[29] = new File("res/sound/menu.wav");
+    }
+
+    public void setFile(int i){
+
+        try{
+
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(soundURL[i]);
+            clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            floatControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+            checkVolume();
+
+        } catch(Exception e){
+
+        }
+    }
+
+    public void play(){
+
+        clip.start();
+    }
+
+    public void loop(){
+
+        clip.loop(Clip.LOOP_CONTINUOUSLY);
+    }
+
+    public void stop(){
+
+        clip.stop();
+    }
+
+    public void checkVolume(){
+
+        switch (volumeScale){
+            case 0: volume = -80f; break;
+            case 1: volume = -20f; break;
+            case 2: volume = -12f; break;
+            case 3: volume = -5f; break;
+            case 4: volume = -1f; break;
+            case 5: volume = 6f; break;
+        }
+
+        floatControl.setValue(volume);
+    }
+
+    public int getVolumeScale() {
+        return volumeScale;
+    }
+
+    public void setVolumeScale(int volumeScale) {
+        this.volumeScale = volumeScale;
+    }
+}
